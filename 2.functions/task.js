@@ -36,11 +36,11 @@ function worker(array) {
 }
 
 
-function makeWork(arrOfArr, func) {
+function makeWork(arrOfArr, worker) {
 
     let max = 0;
     for (let i = 0; i < arrOfArr.length; i++) {
-
+        console.log(worker(arrOfArr[i]));
     }
     return max;
 }
