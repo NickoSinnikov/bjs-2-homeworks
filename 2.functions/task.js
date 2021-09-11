@@ -36,11 +36,16 @@ function worker(array) {
 }
 
 
-function makeWork(arrOfArr, worker) {
+function makeWork(arrOfArr, func) {
 
     let max = 0;
+
     for (let i = 0; i < arrOfArr.length; i++) {
-        console.log(worker(arrOfArr[i]));
+        const sum = func(arrOfArr[i]);
+
+        if (max < sum) {
+            max = sum;
+        }
     }
     return max;
 }
@@ -48,5 +53,31 @@ function makeWork(arrOfArr, worker) {
 
 // Задание 3
 function worker2(arr) {
+    let min = arr[0];
+    let max = arr[0];
+    for (let i = 0; i < arr.length; i++) {
+        if (arr[i] < min) {
+            min = arr[i];
+        }
+        if (arr[i] > max) {
+            max = arr[i];
+        }
+    }
+    let diff = max - min;
+    return diff;
     // Ваш код
+}
+
+function makeWork2(arrOfArr, func) {
+
+    let max = 0;
+
+    for (let i = 0; i < arrOfArr.length; i++) {
+        const sum = func(arrOfArr[i]);
+
+        if (max < sum) {
+            max = sum;
+        }
+    }
+    return max;
 }
