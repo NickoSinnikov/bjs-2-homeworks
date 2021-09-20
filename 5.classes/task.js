@@ -94,3 +94,46 @@ class Library {
         return null;
     }
 }
+
+class Student {
+    constructor(name, subject) {
+        this.name = name;
+        this.subject = {};
+    }
+
+    addMark(mark, subject) {
+        if (mark > 5 || mark < 1) {
+            return "Неверная оценка";
+        } else {
+            if (!this.subject[subject]) {
+                this.subject[subject] = [];
+            }
+            this.subject[subject].push(mark);
+        }
+    }
+
+    getAverageBySubject(subject) {
+        if (this.subject[subject] === undefined) {
+            return "Такого предмета нет";
+        }
+        let sum = 0;
+        let avg = 0;
+        for (let i = 0; i < this.subject[subject].length; i++) {
+            sum += this.subject[subject][i];
+            avg = (sum / this.subject[subject].length);
+        }
+        return avg;
+    }
+
+
+    getAverage() {
+        let sumSubj = 0;
+        for (let subject in this.subject) {
+            sumSubj += this.getAverageBySubject(subject);
+        }
+        let lengthSubj = Object.keys(this.subject).length;
+        let avgSubj = 0;
+        avgSubj = sumSubj / lengthSubj;
+        return avgSubj;
+    }
+}
