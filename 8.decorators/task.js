@@ -24,8 +24,17 @@ function cachingDecoratorNew(func) {
 }
 
 
-function debounceDecoratorNew(func) {
+function debounceDecoratorNew(func, ms) {
     // Ваш код
+    let timeout;
+    return function(...args) {
+        clearTimeout(timeout);
+
+        timeout = setTimeout(() => {
+            func.apply(this, args);
+            console.timeEnd("time");
+        }, ms);
+    };
 }
 
 function debounceDecorator2(func) {
