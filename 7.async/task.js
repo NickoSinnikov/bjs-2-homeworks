@@ -4,7 +4,7 @@ class AlarmClock {
         this.timerId = null;
     }
 
-    addClock(time, id, callback) {
+    addClock(time, callback, id) {
         if (typeof id === 'undefined') {
             throw new Error('id не передан');
         }
@@ -19,8 +19,7 @@ class AlarmClock {
 
     removeClock(id) {
         let ind = this.alarmCollection.findIndex((alarm) => alarm.id === id);
-        this.alarmCollection.splice(ind, 1);
-        return;
+        return !!this.alarmCollection.splice(ind, 1);
     }
 
     getCurrentFormattedTime() {
@@ -39,21 +38,22 @@ class AlarmClock {
         return (hours + ":" + minutes);
     }
 
-    start() {
-        function checkClock(alarm) {
-            if (alarm.time === this.getCurrentFormattedTime())
-                return alarm.callback();
-        }
+    checkClock = (alarm) => {
+        if (alarm.time === this.getCurrentFormattedTime())
+            return alarm.callback();
 
+    }
+
+    start() {
         if (this.timerId === null) {
-            setInterval(() => {
+            this.timerId = setInterval(() => {
                     this.alarmCollection.forEach((alarm) => { //forEach - вызывает ф-цию для каждого элемента массива
                         checkClock(alarm);
                     });
                 },
                 1000);
         }
-        this.timerId = setInterval;
+
     }
 
     stop() {
@@ -74,3 +74,27 @@ class AlarmClock {
         this.alarmCollection = [];
     }
 }
+
+function testCase() {
+    let phoneAlarm = new AlarmClock();
+    phoneAlarm.addClock("11:45", () => console.log("Пора вставать"), 1);
+    phoneAlarm.addClock("11:46", () => {
+            console.log("Уже нужно вставать");
+            phoneAlarm.removeClock(2)
+        },
+        2);
+
+    phoneAlarm.addClock("11:47", () => console.log("Иди умываться"), 3);
+    phoneAlarm.addClock("11:48", () => {
+        console.log("Вставай, а то проспишь!");
+        phoneAlarm.clearAlarms();
+        phoneAlarm.printAlarms();
+    }, 3);
+    phoneAlarm.addClock("11:47", () => console.log("Проспал"), 1);
+    phoneAlarm.start();
+    phoneAlarm.stop();
+    phoneAlarm.printAlarms();
+    console.log(this.getCurrentFormattedTime);
+}
+
+testCase();
