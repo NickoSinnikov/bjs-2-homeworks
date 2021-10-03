@@ -28,15 +28,21 @@ function debounceDecoratorNew(func, ms) {
 
     let timeout = false;
 
+    let isCooldown = true;
+
     function wrapper(...args) {
-        if (timeout) return "Игнор";
+        if (!isCooldown) {
+            console.log("игнор");
+            return;
+        }
         func.apply(this, args);
-        timeout = true;
+        isCooldown = false;
+
         setTimeout(() => {
-            timeout = false
+            isCooldown = true;
+            console.log('Время прошло')
         }, ms);
     };
-
     return wrapper;
 }
 
