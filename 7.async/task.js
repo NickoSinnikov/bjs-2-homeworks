@@ -45,6 +45,11 @@ class AlarmClock {
     }
 
     start() {
+        checkClock = (alarm) => {
+            if (alarm.time === this.getCurrentFormattedTime())
+                return alarm.callback();
+        }
+
         if (this.timerId === null) {
             this.timerId = setInterval(() => {
                     this.alarmCollection.forEach((alarm) => { //forEach - вызывает ф-цию для каждого элемента массива
