@@ -25,22 +25,19 @@ function cachingDecoratorNew(func) {
 
 
 function debounceDecoratorNew(func, ms) {
-
-    let timeout = false;
-
+    let timeout;
     let isCooldown = true;
 
     function wrapper(...args) {
-        if (!isCooldown) {
-            console.log("игнор");
+        if (isCooldown) {
+            isCooldown = false;
+            func.apply(this, ...args);
             return;
         }
-        func.apply(this, args);
-        isCooldown = false;
-
-        setTimeout(() => {
-            isCooldown = true;
-            console.log('Время прошло')
+        clearTimeout(timeout);
+        console.log('Игнор');
+        timeout = setTimeout(() => {
+            func.apply(this, args);
         }, ms);
     };
     return wrapper;
