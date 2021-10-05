@@ -45,4 +45,22 @@ function debounceDecoratorNew(func, ms) {
 
 function debounceDecorator2(func, ms) {
 
+    let timerId;
+    let isCooldown = true;
+    wrapper.count = 0;
+
+    function wrapper(...args) {
+        if (isCooldown) {
+            isCooldown = false;
+            func.apply(this, ...args);
+            return;
+        }
+        wrapper.count++;
+        clearTimeout(timerId);
+        console.log('Пропуск');
+        timerId = setTimeout(() => {
+            func.apply(this, args);
+        }, ms);
+    };
+    return wrapper;
 }
